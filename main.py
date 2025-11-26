@@ -1,8 +1,8 @@
 import json
 from datetime import datetime
 
-class dateManager:
-    def getDate(self, time):
+class DatoBehandler:
+    def getDato(self, time):
         match time:
             case "Dag":
                 return datetime.today().strftime('%d')
@@ -15,15 +15,29 @@ class dateManager:
                 return "Error"
 
     def dato(self):
-        return [self.getDate("Dag"), self.getDate("Måned"), self.getDate("År")]
+        return [self.getDato("Dag"), self.getDato("Måned"), self.getDato("År")]
+
+    def deadlineInput(self):
+        while True:
+            dato: str = input("Hvad er projektets deadline? Skriv i format DD-MM-YYYY\n")
+            if len(dato) != 10:
+                print("Error! Tjek formatering.\n")
+            elif dato[2] and dato[5] != "-":
+                print("Error! Mangler seperatorerne '-'! Tjek formatering.")
+            elif not dato.replace("-", "").isdigit():
+                print("Error! Ikke eksklusivt numerisk mellem seperatorerne!")
+            else: break
+
+        out: list = dato.split(sep="-")
+        return out
 
 
 class Fil:
     def __init__(self):
-        dm = dateManager()
-        self.dato = dm.dato()
-
+        db = DatoBehandler()
+        self.dato = db.dato()
+        self.deadline = db.deadlineInput()
 
 test = Fil()
 
-print(test.dato)
+print(test.deadline)
