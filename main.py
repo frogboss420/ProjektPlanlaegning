@@ -37,7 +37,11 @@ class Fil:
         db = DatoBehandler()
         self.dato = db.dato()
         self.deadline = db.deadlineInput()
+        self.info = {"Dato":self.dato, "Deadline":self.deadline}
 
 test = Fil()
 
-print(test.deadline)
+jsontest = json.dumps(test.info) #konverter python dict til json string (s i dumps betyder str)
+
+loadjsontest = json.loads(jsontest) #konverter json string til python dict
+print("dato test " + str(loadjsontest["Dato"]) + "\ndeadline test " + str(loadjsontest["Deadline"]))
