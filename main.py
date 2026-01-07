@@ -2,6 +2,13 @@ import json
 import os.path
 from datetime import datetime
 
+def getDirFiles(): #Indsætter alle json filer i en liste
+    out = []
+    for i in os.listdir("Filer/"):
+        if i.endswith(".json"):
+            out.append(i)
+    return out
+
 class DatoBehandler:
     def getDato(self, time):
         match time:
@@ -66,6 +73,9 @@ class Fil:
 test = Fil("test")
 #test.writeFile()
 test.readFile()
+
+#testkode til samling af filnavne i folder
+print(getDirFiles())
 
 
 '''jsontest = json.dumps(test.info) #konverter python dict til json string (s i dumps betyder str)
