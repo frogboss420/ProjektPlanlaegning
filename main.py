@@ -62,20 +62,27 @@ class Fil:
             json.dump(self.info, file)
             file.close()
 
-
     def readFile(self):
         with open("Filer/" + self.info["Navn"] + ".json", "r") as file:
             print(json.load(file))
             file.close()
 
 
-
 test = Fil("test")
 #test.writeFile()
 test.readFile()
-
 #testkode til samling af filnavne i folder
 print(getDirFiles())
+
+
+while True:
+    brugervalg = input("VÆLG eller OPRET fil\n")
+    if brugervalg.upper() == "OPRET":
+
+    if brugervalg.upper() == "VÆLG":
+        print(getDirFiles())
+        fil = input("vælg fil\n")
+
 
 
 '''jsontest = json.dumps(test.info) #konverter python dict til json string (s i dumps betyder str)
