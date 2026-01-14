@@ -19,7 +19,7 @@ class DatoBehandler:
             case "År":
                 return datetime.today().strftime('%Y')
             case _:
-                print("Invalid getDate() argument")
+                print("Invalid getDato() argument")
                 return "Error"
 
     def dato(self):
@@ -76,8 +76,23 @@ print(getDirFiles())
 
 
 while True:
-    brugervalg = input("VÆLG eller OPRET fil\n")
+    brugervalg = input("VÆLG eller OPRET projekt\n")
     if brugervalg.upper() == "OPRET":
+        active = True
+        while active:
+            nyprojektnavn = input("Vælg navn på nyt projekt")
+
+            if os.path.isfile("Filer/"+nyprojektnavn+".json"):
+                cancel = input("Fil eksisterer allerede. Vil du annullere opretning af nyt projekt? (Y)")
+                if cancel.upper() == "Y":
+                    active = False
+                    break
+            else:
+                nyprojekt = Fil(nyprojektnavn)
+                nyprojekt.writeFile()
+                print("Projekt "+nyprojektnavn+" gemt!")
+                active = False
+
 
     if brugervalg.upper() == "VÆLG":
         print(getDirFiles())
