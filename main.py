@@ -96,9 +96,11 @@ while True:
 
     if brugervalg.upper() == "VÆLG":
         print(getDirFiles())
-        fil = input("vælg fil\n")
-
-
+        valgtfil = input("vælg fil\n")
+        if os.path.isfile("Filer/"+valgtfil):
+            with open("Filer/"+valgtfil, "r") as file:
+                info = json.load(file)
+                file.close()
 
 '''jsontest = json.dumps(test.info) #konverter python dict til json string (s i dumps betyder str)
 
