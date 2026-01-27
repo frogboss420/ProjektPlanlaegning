@@ -68,15 +68,14 @@ class Fil:
             file.close()
 
 
-test = Fil("test")
-#test.writeFile()
-test.readFile()
-#testkode til samling af filnavne i folder
-print(getDirFiles())
-
+class Opgave(Fil):
+    def __init__(self,name):
+        super().__init__(name)
+        self.info.update({"Type": "Opgave"})
 
 while True:
     brugervalg = input("VÆLG eller OPRET projekt\n")
+
     if brugervalg.upper() == "OPRET":
         active = True
         while active:
@@ -97,10 +96,13 @@ while True:
     if brugervalg.upper() == "VÆLG":
         print(getDirFiles())
         valgtfil = input("vælg fil\n")
-        if os.path.isfile("Filer/"+valgtfil):
-            with open("Filer/"+valgtfil, "r") as file:
-                info = json.load(file)
-                file.close()
+        if not os.path.isfile("Filer/"+valgtfil+".json"):
+            print("Error! Fil findes ikke!")
+        else:
+            ÅbnetFil = Fil(valgtfil)
+
+
+
 
 '''jsontest = json.dumps(test.info) #konverter python dict til json string (s i dumps betyder str)
 
