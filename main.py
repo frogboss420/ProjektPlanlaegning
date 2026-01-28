@@ -2,6 +2,10 @@ import json
 import os.path
 from datetime import datetime
 
+#funktion der kan kalde Fil klassens readFile metode, eller LoadFil's overlæsset readFile metode
+def læsFil(fil):
+    fil.readFile()
+
 def getDirFiles(): #Indsætter alle json filer i en liste
     out = []
     for i in os.listdir("Filer/"):
@@ -68,10 +72,25 @@ class Fil:
             file.close()
 
 
-class Opgave(Fil):
-    def __init__(self,name):
-        super().__init__(name)
-        self.info.update({"Type": "Opgave"})
+class LoadFil(Fil): #nedarvning af Fil
+    def __init__(self, name: str):
+        db = DatoBehandler
+        if not os.path.isfile("Filer/" + name + ".json"):
+            print("Error! Fil eksisterer ikke!")
+        else:
+            with open("Filer/" + name + ".json", "r") as file:
+                self.info = json.load(file)
+                file.close()
+            self.dato = self.info["Dato"]
+            self.deadline = self.info["Deadline"]
+
+    def readFile(self): #overlæsning af nedarvet metode
+        print("Dato for oprettelse af " + self.info["Navn"] + ": " + self.dato[0] + "/" + self.dato[1] + "/" + self.dato[2]
+        + "\nDeadline for " + self.info["Navn"] + ": " + self.deadline[0] + "/" + self.deadline[1] + "/" + self.deadline[2])
+
+
+
+#bruger grænseflade
 
 while True:
     brugervalg = input("VÆLG eller OPRET projekt\n")
@@ -79,17 +98,17 @@ while True:
     if brugervalg.upper() == "OPRET":
         active = True
         while active:
-            nyprojektnavn = input("Vælg navn på nyt projekt")
+            nyprojektnavn = input("Vælg navn på nyt projekt\n")
 
             if os.path.isfile("Filer/"+nyprojektnavn+".json"):
-                cancel = input("Fil eksisterer allerede. Vil du annullere opretning af nyt projekt? (Y)")
+                cancel = input("Fil eksisterer allerede. Vil du annullere opretning af nyt projekt? (Y)\n")
                 if cancel.upper() == "Y":
                     active = False
                     break
             else:
                 nyprojekt = Fil(nyprojektnavn)
                 nyprojekt.writeFile()
-                print("Projekt "+nyprojektnavn+" gemt!")
+                print("Projekt '"+nyprojektnavn+"' gemt!")
                 active = False
 
 
@@ -99,8 +118,8 @@ while True:
         if not os.path.isfile("Filer/"+valgtfil+".json"):
             print("Error! Fil findes ikke!")
         else:
-            ÅbnetFil = Fil(valgtfil)
-
+            ÅbnetFil = LoadFil(valgtfil)
+            læsFil(ÅbnetFil)
 
 
 
